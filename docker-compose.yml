@@ -1,0 +1,17 @@
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  web:
+    container_name: django_chat_app
+    build: .
+    command: python manage.py runserver 0.0.0.0:8001
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+    depends_on:
+      - redis

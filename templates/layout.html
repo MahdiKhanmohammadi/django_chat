@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="">
+
+
+<!-- Mirrored from connectme-html.themeyn.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 21 Jun 2026 06:23:57 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <!-- Page Title -->
+    <title>Messages | ConnectMe | Chat Application HTML Template</title>
+    <!-- Page Stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/bundle0ae1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app0ae1.css' %}">
+</head>
+
+<body class="tyn-body">
+
+    <div class="tyn-root">
+        {% include 'partial/navbar.html' %}
+        <div class="tyn-content tyn-content-full-height tyn-chat has-aside-base">
+            {% block container %}
+            {% endblock %}
+        </div>
+    </div>
+    <!-- Page Scripts -->
+    <script src="{% static 'js/bundle0ae1.js?v1310' %}"></script>
+    <script src="{% static 'js/app0ae1.js?v1310' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+
+<!-- Mirrored from connectme-html.themeyn.com/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 21 Jun 2026 06:25:03 GMT -->
+
+</html>

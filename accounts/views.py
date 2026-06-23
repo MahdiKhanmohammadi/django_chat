@@ -1,0 +1,46 @@
+from django.shortcuts import render
+from django.views.generic import FormView
+from .forms import RegisterUserModelForm, LoginUserForm
+from .models import User
+from django.contrib.auth import login, authenticate, logout
+from django.urls import reverse_lazy
+
+# Create your views here.
+
+
+class RegisterUserFormView(FormView):
+    form_class = RegisterUserModelForm
+    template_name = 'accounts/register.html'
+    success_url = reverse_lazy("accounts:login")
+
+    def form_valid(self, form: RegisterUserModelForm):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+
+        create_user = User.objects.create(email=email)
+        create_user.set_password(password)
+        create_user.save()
+
+        return super().form_valid(form)
+
+
+class LoginUserFormView(FormView):
+    form_class = LoginUserForm
+    template_name = "accounts/login.html"
+    success_url = reverse_lazy("accounts:login")
+
+    def form_valid(self, form: LoginUserForm):
+
+        get_email = form.cleaned_data.get('email')
+        get_password = form.cleaned_data.get('password')
+
+        user = authenticate(self.request, username=get_email,
+                            password=get_password)
+
+        if not user:
+            form.add_error('email', "email or password wrong")
+            return self.form_invalid(form)
+
+        login(self.request, user)
+
+        return super().form_valid(form)

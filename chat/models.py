@@ -5,7 +5,7 @@ from django_jalali.db import models as jmodels
 
 
 class Room(models.Model):
-    users = models.ManyToManyField("accounts.Profile")
+    users = models.ManyToManyField("accounts.Profile", related_name="rooms")
     created_date = jmodels.jDateTimeField(auto_now_add=True)
     updated_date = jmodels.jDateTimeField(auto_now=True)
 
@@ -17,8 +17,10 @@ class Room(models.Model):
 
 
 class Message(models.Model):
-    author = models.ForeignKey("accounts.Profile", on_delete=models.PROTECT)
-    room = models.ForeignKey("Room", on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        "accounts.Profile", on_delete=models.PROTECT, related_name='messages')
+    room = models.ForeignKey(
+        "Room", on_delete=models.CASCADE, related_name='messages')
     text = models.TextField()
     send_date = jmodels.jDateTimeField(auto_now_add=True)
 

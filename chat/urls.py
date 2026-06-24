@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import ProfileUpdateView
+from .views import ProfileUpdateView, RoomListView, RoomDetailView
 app_name = 'chat'
 
 urlpatterns = [
     path('profile/<slug:username>/update/',
-         ProfileUpdateView.as_view(), name='profile_update')
+         ProfileUpdateView.as_view(), name='profile_update'),
+    path('', RoomListView.as_view(), name="home"),
+    path('chat/<pk>/', RoomDetailView.as_view(), name="room")
 
 ]

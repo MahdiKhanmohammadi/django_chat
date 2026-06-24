@@ -40,7 +40,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
-    GENDER = [('woman', "woman"), ('man', 'man'), ('unSelected', "unSelected")]
 
     user = models.OneToOneField(
         "User", on_delete=models.CASCADE, related_name='profile')
@@ -48,11 +47,11 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=155)
     last_name = models.CharField(max_length=200, null=True, blank=True)
     about = models.TextField(null=True, blank=True)
-    gender = models.CharField(
-        max_length=100, choices=GENDER, default="unSelected")
-    image_profile = models.ImageField(null=True, blank=True)
-    banner = models.ImageField(null=True, blank=True)
-    birth_day = jmodels.jDateField(null=True, blank=True)
+
+    image_profile = models.ImageField(
+        null=True, blank=True, upload_to="media/images/profiles/")
+    banner = models.ImageField(
+        null=True, blank=True, upload_to="media/images/banners/")
     last_seen = jmodels.jDateTimeField()
     is_online = models.BooleanField(default=False)
 

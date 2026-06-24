@@ -30,7 +30,8 @@ class Message(models.Model):
 
 
 class Contact(models.Model):
-    owner = models.ForeignKey("accounts.Profile", on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        "accounts.Profile", on_delete=models.CASCADE, related_name="contacts")
     username = models.CharField(max_length=200)
     created_date = jmodels.jDateTimeField(auto_now_add=True)
     updated_date = jmodels.jDateTimeField(auto_now=True)

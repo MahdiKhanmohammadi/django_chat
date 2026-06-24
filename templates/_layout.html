@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
     <!-- Page Title -->
-    <title>Messages | ConnectMe | Chat Application HTML Template</title>
+    <title>{% block title %} Messages | ConnectMe | Chat Application HTML Template {% endblock %}</title>
     <!-- Page Stylesheets -->
     <link rel="stylesheet" href="{% static 'css/bundle0ae1.css' %}">
     <link rel="stylesheet" href="{% static 'css/app0ae1.css' %}">
@@ -24,14 +24,14 @@
 
     <div class="tyn-root">
         {% include 'partial/navbar.html' %}
-        <div class="tyn-content tyn-content-full-height tyn-chat has-aside-base">
-            {% block container %}
-            {% endblock %}
-        </div>
+
+        {% block container %}
+        {% endblock %}
+
     </div>
     <!-- Page Scripts -->
-    <script src="{% static 'js/bundle0ae1.js?v1310' %}"></script>
-    <script src="{% static 'js/app0ae1.js?v1310' %}"></script>
+    <script src="{% static 'js/bundle0ae1.js' %}"></script>
+    <script src="{% static 'js/app0ae1.js' %}"></script>
     {% block scripts %}
     {% endblock %}
 </body>

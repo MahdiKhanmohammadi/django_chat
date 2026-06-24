@@ -1,0 +1,156 @@
+{% extends '_layout.html' %}
+{% load static %}
+{% block title %} My Profile {% endblock %}
+
+{% block container %}
+<div class="tyn-content  tyn-content-page">
+    <div class="tyn-main tyn-content-inner" id="tynMain">
+        <div class="container">
+            <div class="tyn-profile">
+                <div class="tyn-profile-head">
+                    <div class="tyn-profile-cover">
+                        <img class="tyn-profile-cover-image"
+                            src="{% if object.banner %} {{object.banner.url}} {% else %} {% static 'images/cover/2.jpg' %} {% endif %} "
+                            alt="">
+                    </div><!-- .tyn-profile-cover -->
+                    <div class="tyn-profile-info">
+                        <div class="tyn-media-group align-items-start">
+                            <div class="tyn-media tyn-media-bordered tyn-size-4xl tyn-profile-avatar">
+                                <img src="{% if object.image_profile %} {{object.image_profile.url}} {% else %} {% static 'images/avatar/1.jpg' %} {% endif %} "
+                                    alt="">
+                            </div>
+                            <div class="tyn-media-col">
+                                <div class="tyn-media-row">
+                                    <h4 class="name">{% if object.first_name %} {{object.first_name}} {% endif %}
+                                        {% if object.last_name %} - {{object.last_name}} {% endif %}
+                                        <span class="username">{{object.username}}</span>
+                                    </h4>
+                                </div><!-- .tyn-media-row -->
+                                <div class="tyn-media-row has-dot-sap">
+                                    <span class="content">{{object.contacts|length}} Contacts</span>
+                                    <!-- <span class="meta">8 Groups</span> -->
+                                </div><!-- .tyn-media-row -->
+                                <div class="tyn-media-row pt-2">
+                                    <div class="tyn-media-multiple">
+                                        <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
+                                            <img src="{% static 'images/avatar/2.jpg' %}" alt="">
+                                        </div>
+                                        <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
+                                            <img src="{% static 'images/avatar/3.jpg' %}" alt="">
+                                        </div>
+                                        <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
+                                            <img src="{% static 'images/avatar/4.jpg' %}" alt="">
+                                        </div>
+                                        <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
+                                            <img src="{% static 'images/avatar/5.jpg' %}" alt="">
+                                        </div>
+                                        <div class="tyn-media tyn-circle tyn-size-md tyn-media-bordered">
+                                            <img src="{% static 'images/avatar/6.jpg' %}" alt="">
+                                        </div>
+                                    </div>
+                                </div><!-- .tyn-media-row -->
+                            </div><!-- .tyn-media-col -->
+                        </div><!-- .tyn-media-group -->
+                    </div><!-- .tyn-profile-info -->
+                </div><!-- .tyn-profile-head -->
+                <div class="tyn-profile-nav">
+                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit"
+                                type="button" aria-selected="true" role="tab"> Edit Profile </button>
+                        </li><!-- li -->
+                    </ul><!-- .nav-tabs -->
+                </div><!-- .tyn-profile-nav -->
+                <div class="tyn-profile-details">
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="profile-edit" tabindex="0" role="tabpanel">
+                            <div class="row gy-5">
+                                <div class="col-12">
+                                    <div class="row gy-4">
+                                        <div class="col-lg-3">
+                                            <h6>Personal Information</h6>
+                                            <div class="tyn-subtext">Edit Your personal Info</div>
+                                        </div><!-- .col -->
+                                        <div class="col-lg-9">
+                                            <form method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="row g-gs">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label"
+                                                                for="firstName">{{form.first_name.label}}</label>
+                                                            <div class="form-control-wrap">
+                                                                {{form.first_name}}
+                                                            </div>
+                                                        </div><!-- .form-group -->
+                                                    </div><!-- .col -->
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label"
+                                                                for="lastName">{{form.last_name.label}}</label>
+                                                            <div class="form-control-wrap">
+                                                                {{form.last_name}}
+                                                            </div>
+                                                        </div><!-- .form-group -->
+                                                    </div><!-- .col -->
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label" for="image_profile">Profile
+                                                                Image</label>
+                                                            <div class="form-control-wrap">
+                                                                {{form.image_profile}}
+                                                            </div>
+                                                        </div><!-- .form-group -->
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label"
+                                                                for="banner">{{form.banner.label}}</label>
+                                                            <div class="form-control-wrap">
+                                                                {{form.banner}}
+                                                            </div>
+                                                        </div><!-- .form-group -->
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label"
+                                                                for="about">{{form.about.label}}</label>
+                                                            <div class="form-control-wrap">
+                                                                {{form.about}}
+                                                            </div>
+                                                        </div><!-- .form-group -->
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label d-flex" for="primaryEmail">Main
+                                                                Email
+                                                                <span
+                                                                    class="small ms-2 text-success">Varified</span></label>
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control"
+                                                                    id="primaryEmail" disabled=""
+                                                                    placeholder="Primary Email"
+                                                                    value="{{object.user.email}}">
+                                                            </div>
+                                                            <div class="tyn-subtext mt-2">You need to have at least one
+                                                                email connected with your account</div>
+                                                        </div><!-- .form-group -->
+                                                    </div><!-- .col -->
+
+                                                </div><!-- .row -->
+                                                <br>
+                                                <button class="btn btn-info" type="submit">Update Profile</button>
+                                            </form>
+                                        </div><!-- .col -->
+                                    </div><!-- .row -->
+                                </div><!-- .col -->
+
+                            </div><!-- .row -->
+                        </div><!-- .tab-pane -->
+                    </div><!-- .tab-content -->
+                </div><!-- .tyn-profile-details -->
+            </div><!-- .tyn-profile -->
+        </div><!-- .container -->
+    </div><!-- .tyn-main -->
+</div>
+{% endblock %}

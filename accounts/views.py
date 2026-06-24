@@ -4,7 +4,7 @@ from .forms import RegisterUserModelForm, LoginUserForm
 from .models import User
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
-
+from django.shortcuts import redirect
 # Create your views here.
 
 
@@ -27,7 +27,6 @@ class RegisterUserFormView(FormView):
 class LoginUserFormView(FormView):
     form_class = LoginUserForm
     template_name = "accounts/login.html"
-    success_url = reverse_lazy("accounts:login")
 
     def form_valid(self, form: LoginUserForm):
 
@@ -44,3 +43,12 @@ class LoginUserFormView(FormView):
         login(self.request, user)
 
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("chat:profile_update", kwargs={'username': self.request.user.generate_username()})
+
+
+def logout_user(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect("accounts:login")

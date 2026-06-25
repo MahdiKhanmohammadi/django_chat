@@ -55,10 +55,11 @@ class RoomDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'room'
     template_name = "chat/room.html"
 
-    # def get_queryset(self):
-    #     login_user = self.request.user
-    #     return get_object_or_404(Room, pk=self.kwargs.get('pk'),
-    #                              users=login_user)
+    def get_object(self):
+        current_room_id = self.kwargs.get('pk')
+        login_user = self.request.user
+        return get_object_or_404(Room, pk=current_room_id,
+                                 users__user=login_user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

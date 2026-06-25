@@ -2,7 +2,7 @@
 <nav class="tyn-appbar">
     <div class="tyn-appbar-wrap">
         <div class="tyn-appbar-logo">
-            <a class="tyn-logo" href="index.html">
+            <a class="tyn-logo" href="{% url 'chat:home' %}">
                 <svg viewBox="0 0 43 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M37.2654 14.793C37.2654 14.793 45.0771 20.3653 41.9525 29.5311C41.9525 29.5311 41.3796 31.1976 39.0361 34.4264L42.4732 37.9677C42.4732 37.9677 43.3065 39.478 41.5879 39.9987H24.9229C24.9229 39.9987 19.611 40.155 14.8198 36.9782C14.8198 36.9782 12.1638 35.2076 9.76825 31.9787L18.6215 32.0308C18.6215 32.0308 24.298 31.9787 29.7662 28.3333C35.2344 24.6878 37.4217 18.6988 37.2654 14.793Z"
@@ -16,7 +16,7 @@
         <div class="tyn-appbar-content">
             <ul class="tyn-appbar-nav tyn-appbar-nav-start">
                 <li class="tyn-appbar-item">
-                    <a class="tyn-appbar-link" href="index.html">
+                    <a class="tyn-appbar-link" href="{% url 'chat:home' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chat-text-fill" viewBox="0 0 16 16">
                             <path
@@ -51,11 +51,12 @@
                         <div class="dropdown-gap">
                             <div class="tyn-media-group">
                                 <div class="tyn-media tyn-size-lg">
-                                    <img src="{% static 'images/avatar/3.jpg' %}" alt="">
+                                    <img src="{{request.user.profile.image_profile.url}}" alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
-                                        <h6 class="name">Marie George</h6>
+                                        <h6 class="name">{{request.user.profile.first_name}}
+                                            {{request.user.profile.last_name}}</h6>
                                         <div class="indicator varified">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -65,42 +66,14 @@
                                         </div>
                                     </div>
                                     <div class="tyn-media-row has-dot-sap">
-                                        <p class="content">Liked that disco music</p>
+                                        <p class="content">{{request.user.profile.about}}</p>
                                     </div>
                                 </div><!-- .tyn-media-col -->
                             </div><!-- .tyn-media-group -->
                         </div><!-- .dropdown-gap -->
-                        <div class="dropdown-gap">
-                            <div class="d-flex gap gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-moon-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278" />
-                                </svg><!-- moon-fill -->
-                                <div>
-                                    <h6>Darkmode</h6>
-                                    <ul class="d-flex align-items-center gap gap-3">
-                                        <li class="inline-flex">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="themeMode" id="dark"
-                                                    value="dark">
-                                                <label class="form-check-label small" for="dark"> On </label>
-                                            </div>
-                                        </li><!-- li -->
-                                        <li class="inline-flex">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="themeMode" id="light"
-                                                    value="light" checked>
-                                                <label class="form-check-label small" for="light"> Off </label>
-                                            </div>
-                                        </li><!-- li -->
-                                    </ul><!-- ul -->
-                                </div><!-- div -->
-                            </div><!-- .d-flex -->
-                        </div><!-- .dropdown-gap -->
                         <ul class="tyn-list-links">
                             <li>
-                                <a href="profile.html#profile-index">
+                                <a href="here">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-person" viewBox="0 0 16 16">
                                         <path
@@ -110,7 +83,7 @@
                                 </a>
                             </li><!-- li -->
                             <li>
-                                <a href="profile.html#profile-settings">
+                                <a href="{% url 'chat:profile_update' request.user.generate_username %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-gear" viewBox="0 0 16 16">
                                         <path
@@ -121,16 +94,7 @@
                                     <span>Settings</span>
                                 </a>
                             </li><!-- li -->
-                            <li>
-                                <a href="profile.html#profile-change-password">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-unlock" viewBox="0 0 16 16">
-                                        <path
-                                            d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z" />
-                                    </svg><!-- unlock -->
-                                    <span>Change Password</span>
-                                </a>
-                            </li><!-- li -->
+
                             <li class="dropdown-divider"></li><!-- li -->
                             <li>
                                 <a href="{% url 'accounts:logout' %}">

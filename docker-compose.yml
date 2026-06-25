@@ -7,7 +7,7 @@ services:
   web:
     container_name: django_chat_app
     build: .
-    command: python manage.py runserver 0.0.0.0:8001
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:

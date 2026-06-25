@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.db import models
+from django.utils import timezone
 from django_jalali.db import models as jmodels
 
 # Create your models here.
@@ -23,6 +26,33 @@ class Message(models.Model):
         "Room", on_delete=models.CASCADE, related_name='messages')
     text = models.TextField()
     send_date = jmodels.jDateTimeField(auto_now_add=True)
+
+    def display_message_date(self):
+        """ display message send date for show room for exampla : 1 d ago , 25 m age """
+
+        display_send_date = timezone.now() - self.send_date
+
+        days = display_send_date.days
+
+        seconds = display_send_date.seconds
+
+        hours = seconds // 3600
+
+        minutes = (seconds % 3600) // 60
+
+        if display_send_date < timedelta(minutes=1):
+            display_send_date = f"{seconds} s ago"
+
+        elif display_send_date < timedelta(minutes=60):
+            display_send_date = f"{minutes} m ago"
+
+        elif display_send_date > timedelta(minutes=60):
+            display_send_date = f"{hours} h ago"
+
+        else:
+            display_send_date = f"{days} d ago"
+
+        return display_send_date
 
     def __str__(self):
         return f"{self.author.username}: {self.text[:10]}"

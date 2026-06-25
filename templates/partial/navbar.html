@@ -43,7 +43,8 @@
                     <a class="d-inline-flex dropdown-toggle" data-bs-auto-close="outside" data-bs-toggle="dropdown"
                         href="#" data-bs-offset="0,10">
                         <div class="tyn-media tyn-size-lg tyn-circle">
-                            <img src="{% static 'images/avatar/3.jpg' %}" alt="">
+                            <img src="{% if request.user.profile.image_profile %} {{request.user.profile.image_profile.url}} {% else %} {% static 'images/avatar/3.jpg' %} {% endif %}"
+                                alt="">
                         </div>
                     </a><!-- .dropdown-toggle -->
                     <div class="dropdown-menu dropdown-menu-end">

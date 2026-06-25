@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from django.views.generic import UpdateView, ListView, DetailView
-from django.views.generic.detail import BaseDetailView
 from .forms import ProfileModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.mixins import UserPassesTestMixin
 from accounts.models import Profile
 from .models import Room
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Count
+
 # Create your views here.
 
 
@@ -17,7 +16,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     slug_field = 'username'
     slug_url_kwarg = 'username'
-    success_url = reverse_lazy("accounts:register")
+    success_url = reverse_lazy("chat:home")
 
     def get_object(self, queryset=None):
 
@@ -35,7 +34,9 @@ class RoomListView(LoginRequiredMixin, ListView):
     context_object_name = 'rooms'
 
     def get_queryset(self):
-        return Profile.objects.get(pk=self.request.user.pk).rooms.all()
+        rooms = Profile.objects.get(pk=self.request.user.pk).rooms.all()
+        return rooms.annotate(
+            message_count=Count('messages')).filter(message_count__gt=0)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +46,8 @@ class RoomListView(LoginRequiredMixin, ListView):
                 user=self.request.user
             ).first()
 
-            room.last_message = room.messages.last()
+            room.last_message = room.messages.first()
+            room.display_last_message_send_date = room.last_message.display_message_date
 
         return context
 
@@ -73,21 +75,22 @@ class RoomDetailView(LoginRequiredMixin, DetailView):
 
         room.messages.order_by("-send_date").all()
 
-        # room.other_user_messages = room.other_user.messages.filter(
-        #     room__pk=room.pk).all()
-
-        # room.login_user_messages = Profile.objects.filter(
-        #     user=self.request.user).first().messages.filter(room__pk=self.kwargs['pk']).all()
-
         context['room'] = room
 
         # data for sidebar
         context['rooms'] = Profile.objects.get(
-            pk=self.request.user.pk).rooms.all()
+            # 'books' is the related_name in Book model's ForeignKey
+            pk=self.request.user.pk).rooms
+
+        context['rooms'] = context['rooms'].annotate(
+            message_count=Count('messages')).filter(message_count__gt=0)
 
         for room in context["rooms"]:
             room.other_user = room.users.exclude(
                 user=self.request.user
             ).first()
+
+            # show display date in rooms
+            room.display_last_message_send_date = room.messages.first().display_message_date
 
         return context

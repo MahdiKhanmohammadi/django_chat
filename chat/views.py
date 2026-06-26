@@ -94,3 +94,7 @@ class RoomDetailView(LoginRequiredMixin, DetailView):
             room.display_last_message_send_date = room.messages.first().display_message_date
 
         return context
+
+
+class ContactListView(LoginRequiredMixin, ListView):
+    pass

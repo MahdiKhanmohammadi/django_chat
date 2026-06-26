@@ -64,7 +64,8 @@ class Message(models.Model):
 class Contact(models.Model):
     owner = models.ForeignKey(
         "accounts.Profile", on_delete=models.CASCADE, related_name="contacts")
-    username = models.CharField(max_length=200)
+    contact_user = models.ForeignKey(
+        "accounts.Profile", on_delete=models.CASCADE, related_name="owners")
     created_date = jmodels.jDateTimeField(auto_now_add=True)
     updated_date = jmodels.jDateTimeField(auto_now=True)
 
@@ -73,3 +74,4 @@ class Contact(models.Model):
 
     class Meta:
         ordering = ["-created_date", '-updated_date']
+        unique_together = ['owner', 'contact_user']

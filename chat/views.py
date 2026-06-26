@@ -2,6 +2,7 @@ from django.views.generic import UpdateView, ListView, DetailView
 from .forms import ProfileModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import Profile
+from .models import Contact
 from .models import Room
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -14,8 +15,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ProfileModelForm
     template_name = "chat/profile_update.html"
     model = Profile
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
     success_url = reverse_lazy("chat:home")
 
     def get_object(self, queryset=None):
@@ -24,7 +23,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
         return get_object_or_404(
             Profile,
-            username=self.kwargs.get('username'),
             user=login_user
         )
 
@@ -97,4 +95,8 @@ class RoomDetailView(LoginRequiredMixin, DetailView):
 
 
 class ContactListView(LoginRequiredMixin, ListView):
-    pass
+    model = Contact
+    context_object_name = 'contacts'
+
+    def get_queryset(self):
+        return self.model.objects.filter(owner=self.request.user.profile)

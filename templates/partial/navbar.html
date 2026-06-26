@@ -51,12 +51,17 @@
                         <div class="dropdown-gap">
                             <div class="tyn-media-group">
                                 <div class="tyn-media tyn-size-lg">
-                                    <img src="{{request.user.profile.image_profile.url}}" alt="">
+                                    <img src="{% if request.user.profile.image_profile %} {{request.user.profile.image_profile.url}} {% else %} {% static 'images/avatar/3.jpg' %} {% endif %}"
+                                        alt="">
                                 </div>
                                 <div class="tyn-media-col">
                                     <div class="tyn-media-row">
-                                        <h6 class="name">{{request.user.profile.first_name}}
-                                            {{request.user.profile.last_name}}</h6>
+                                        <h6 class="name">{% if request.user.profile.first_name%}
+                                            {{request.user.profile.first_name}}
+                                            {% endif %}
+                                            {% if request.user.profile.last_name %}
+                                            {{request.user.profile.last_name}}
+                                            {%endif %}</h6>
                                         <div class="indicator varified">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -66,7 +71,9 @@
                                         </div>
                                     </div>
                                     <div class="tyn-media-row has-dot-sap">
-                                        <p class="content">{{request.user.profile.about}}</p>
+                                        <p class="content">{% if request.user.profile.about%}
+                                            {{request.user.profile.about}}
+                                            {% endif %}</p>
                                     </div>
                                 </div><!-- .tyn-media-col -->
                             </div><!-- .tyn-media-group -->
@@ -83,7 +90,7 @@
                                 </a>
                             </li><!-- li -->
                             <li>
-                                <a href="{% url 'chat:profile_update' request.user.generate_username %}">
+                                <a href="{% url 'chat:profile_update' %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-gear" viewBox="0 0 16 16">
                                         <path

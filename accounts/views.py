@@ -45,7 +45,7 @@ class LoginUserFormView(FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("chat:profile_update", kwargs={'username': self.request.user.generate_username()})
+        return reverse_lazy("chat:profile_update")
 
 
 def logout_user(request):

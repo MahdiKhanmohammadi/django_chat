@@ -70,7 +70,7 @@ class Contact(models.Model):
     updated_date = jmodels.jDateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"owner: {self.owner.username} - {self.username}"
+        return f"owner: {self.owner.username} - {self.contact_user.username}"
 
     class Meta:
         ordering = ["-created_date", '-updated_date']

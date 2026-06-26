@@ -1,12 +1,15 @@
-from django.views.generic import UpdateView, ListView, DetailView
+from django.views.generic import UpdateView, ListView, DetailView, View
+from django.views.decorators.csrf import csrf_exempt
 from .forms import ProfileModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import Profile
-from .models import Contact
-from .models import Room
-from django.shortcuts import get_object_or_404
+from .models import Contact, Room
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.db.models import Count
+from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -97,6 +100,62 @@ class RoomDetailView(LoginRequiredMixin, DetailView):
 class ContactListView(LoginRequiredMixin, ListView):
     model = Contact
     context_object_name = 'contacts'
+    template_name = "chat/contact.html"
 
     def get_queryset(self):
         return self.model.objects.filter(owner=self.request.user.profile)
+
+
+class GetOrCreateRoomView(LoginRequiredMixin, View):
+    def get(self, request, contact_username):
+        find_contact = get_object_or_404(Profile, username=contact_username)
+        login_user = request.user.profile
+
+        get_exist_room = Room.objects.filter(
+            users=login_user).filter(users=find_contact).first()
+
+        if get_exist_room == None:
+            room = Room.objects.create()
+            room.users.add(find_contact, login_user)
+            return redirect(reverse_lazy("chat:room", kwargs={'pk': room.pk}))
+
+        return redirect(reverse_lazy("chat:room", kwargs={'pk': get_exist_room.pk}))
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfileListView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, "chat/find_contact.html")
+
+    def post(self, request, ):
+        query = request.POST.get('query')
+        contacts = []
+        profiles = Profile.objects.filter(username__contains=query)
+        for profile in profiles:
+            contacts.append({
+                "first_name": profile.first_name,
+                "last_name": profile.last_name,
+                "username": profile.username,
+                "image_profile": profile.image_profile.url if profile.image_profile else "",
+            })
+
+        if contacts:
+            return JsonResponse({"contacts": contacts})
+        return JsonResponse({"detail": "user notfound"})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddContactView(LoginRequiredMixin, View):
+    def post(self, request):
+        current_user = request.user.profile
+
+        username = request.POST.get('username')
+        contact_user = get_object_or_404(Profile, username=username)
+
+        check_contact_exist = Contact.objects.filter(
+            owner=current_user, contact_user=contact_user).exists()
+        if check_contact_exist:
+            return JsonResponse({'detail': False})
+
+        Contact.objects.create(owner=current_user, contact_user=contact_user)
+        return JsonResponse({'detail': True})

@@ -1,3 +1,4 @@
+{% load static %}
 <div class="tyn-main tyn-chat-content aside-collapsed" id="tynMain">
     <div class="tyn-chat-head">
         <ul class="tyn-list-inline d-md-none ms-n1">
@@ -12,7 +13,7 @@
         </ul>
         <div class="tyn-media-group">
             <div class="tyn-media tyn-size-lg d-none d-sm-inline-flex">
-                <img src="{{room.other_user.image_profile.url}}" alt="">
+                <img src="{% static room.other_user.profile.image_profile.url|default:'images/avatar/1.jpg' %}" alt="">
             </div><!-- .tyn-media -->
             <div class="tyn-media tyn-size-rg d-sm-none">
                 <img src="images/avatar/1.jpg" alt="">

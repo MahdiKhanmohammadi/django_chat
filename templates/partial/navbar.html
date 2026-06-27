@@ -26,7 +26,7 @@
                     </a>
                 </li><!-- .tyn-appbar-item -->
                 <li class="tyn-appbar-item">
-                    <a class="tyn-appbar-link" href="contacts.html">
+                    <a class="tyn-appbar-link" href="{% url 'chat:contacts' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-person-lines-fill" viewBox="0 0 16 16">
                             <path
@@ -80,7 +80,7 @@
                         </div><!-- .dropdown-gap -->
                         <ul class="tyn-list-links">
                             <li>
-                                <a href="here">
+                                <a href="{% url 'chat:get_profile' request.user.generate_username %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-person" viewBox="0 0 16 16">
                                         <path

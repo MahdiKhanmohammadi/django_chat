@@ -7,15 +7,17 @@
         </div><!-- .tyn-aside-head-text -->
         <div class="tyn-aside-head-tools">
             <ul class="tyn-list-inline gap gap-3">
-                <li><button class="btn btn-icon btn-light btn-md btn-pill" data-bs-toggle="modal"
-                        data-bs-target="#addContact">
+                <li>
+                    <a href="{% url 'chat:search_contact' %}" target="_blank"
+                        class="btn btn-icon btn-light btn-md btn-pill">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2">
                             </path>
                         </svg><!-- plus-lg -->
-                    </button></li>
+                    </a>
+                </li>
             </ul>
         </div><!-- .tyn-aside-head-tools -->
     </div><!-- .tyn-aside-head -->
@@ -25,18 +27,7 @@
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#contact-all" type="button"
                     aria-selected="true" role="tab"> All </button>
             </li><!-- .nav-item -->
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact-new" type="button"
-                    aria-selected="false" tabindex="-1" role="tab"> New </button>
-            </li><!-- .nav-item -->
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact-favorites" type="button"
-                    aria-selected="false" tabindex="-1" role="tab"> Favorites </button>
-            </li><!-- .nav-item -->
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact-blocked" type="button"
-                    aria-selected="false" tabindex="-1" role="tab"> Blocked </button>
-            </li><!-- .nav-item -->
+
         </ul><!-- .nav -->
     </div><!-- .tyn-aside-row -->
     <div class="tyn-aside-body" data-simplebar="init">
@@ -107,7 +98,8 @@
                                                             <div class="dropdown-menu dropdown-menu-end">
                                                                 <ul class="tyn-list-links">
                                                                     <li>
-                                                                        <a href="#">
+                                                                        <a
+                                                                            href="{% url 'chat:get_profile' contact.contact_user.username %}">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 width="16" height="16"
                                                                                 fill="currentColor" class="bi bi-person"

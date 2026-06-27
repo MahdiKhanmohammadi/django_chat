@@ -16,16 +16,16 @@
                 <img src="{% static room.other_user.profile.image_profile.url|default:'images/avatar/1.jpg' %}" alt="">
             </div><!-- .tyn-media -->
             <div class="tyn-media tyn-size-rg d-sm-none">
-                <img src="images/avatar/1.jpg" alt="">
+                <img src="{% static 'images/avatar/1.jpg' %}" alt="">
             </div><!-- .tyn-media -->
             <div class="tyn-media-col">
                 <div class="tyn-media-row">
                     <h6 class="name">{{room.other_user.first_name}} <span
                             class="d-none d-sm-inline-block">{{room.other_user.last_name}}</span></h6>
                 </div>
-                <div class="tyn-media-row has-dot-sap">
+                <!-- <div class="tyn-media-row has-dot-sap">
                     <span class="meta">Active</span>
-                </div>
+                </div> -->
             </div><!-- .tyn-media-col -->
         </div><!-- .tyn-media-group -->
 
@@ -95,7 +95,8 @@
                                 <div class="tyn-reply-item incoming">
                                     <div class="tyn-reply-avatar">
                                         <div class="tyn-media tyn-size-md tyn-circle">
-                                            <img src="{{message.author.image_profile.url}}" alt="">
+                                            <img src="{% if message.author.image_profile %}{{message.author.image_profile.url}}{% endif %}"
+                                                alt="">
                                         </div>
                                     </div><!-- .tyn-reply-avatar -->
                                     <div class="tyn-reply-group">
@@ -291,9 +292,7 @@
                                     <div class="tyn-media-row">
                                         <h6 class="name">Konstantin Frank</h6>
                                     </div>
-                                    <div class="tyn-media-row has-dot-sap">
-                                        <span class="meta">Active Now</span>
-                                    </div>
+
                                 </div><!-- .tyn-media-col -->
                             </div><!-- .tyn-media-group -->
                             <div class="tyn-aside-row">

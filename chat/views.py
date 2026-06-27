@@ -159,3 +159,17 @@ class AddContactView(LoginRequiredMixin, View):
 
         Contact.objects.create(owner=current_user, contact_user=contact_user)
         return JsonResponse({'detail': True})
+
+
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = "chat/profile.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_user_profile = self.request.user.profile
+        context['contacts'] = current_user_profile.contacts.all()
+        return context

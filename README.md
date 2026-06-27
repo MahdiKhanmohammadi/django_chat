@@ -1,3 +1,8 @@
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Django](https://img.shields.io/badge/Django-5.x-green)
+![Channels](https://img.shields.io/badge/Django_Channels-WebSocket-orange)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+
 Django Chat
 
 A simple real-time chat application built with Django and Django Channels.

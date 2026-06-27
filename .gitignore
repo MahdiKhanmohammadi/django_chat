@@ -23,6 +23,7 @@ wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
+.vscode
 *.egg
 MANIFEST
 
@@ -180,3 +181,4 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 media/*
+.vscode
